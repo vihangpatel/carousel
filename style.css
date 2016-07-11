@@ -1,5 +1,5 @@
 .main-container {
-	width: 882px;
+	width: 888px;
 	position: relative;
 	margin: auto;
 	margin-top : 100px;
@@ -79,7 +79,7 @@
 }
 
 .next.left {
-	/*left : 0%;*/
+	left : 0%;
 }
 
 .prev.right {

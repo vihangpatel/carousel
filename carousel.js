@@ -73,13 +73,12 @@
 		this.pointedItem++;
 		this.pointedItem = this.getIndex(this.pointedItem);
 
-		
-
 		var $prev = this.itemAt(previousItem),
 			$new = this.itemAt(this.pointedItem);
 		
-		$new.addClass('next left');
+		$new.addClass('next');
 		$prev.addClass('left');
+		setTimeout(function() { $new.addClass('left'); } ,10);
 
 		$(this.options.el).one('webkitTransitionEnd',function() {
 			$prev.removeClass('active left');
