@@ -1,0 +1,87 @@
+.main-container {
+	width: 882px;
+	position: relative;
+	margin: auto;
+	margin-top : 100px;
+	border: 1px solid black;
+	overflow: scroll;
+	white-space: nowrap;
+}
+
+.box{
+	width: 180px;
+	height: 160px;
+	padding: 10px;
+	border : 1px solid gray;
+	margin: 10px;
+	display: inline-block;
+}
+
+.left-button {
+	position: absolute;
+	left: 10px;
+	height: 20px;
+	width: 20px;
+	top:50%;
+	border: 1px solid red;
+}
+
+.right-button {
+	position: absolute;
+	right: 10px;
+	height: 20px;
+	width: 20px;
+	top:50%;
+	border: 1px solid red;
+}
+
+.items-chunk {
+	position: relative;
+	display: none;
+	transition: 0.6s ease-in-out left;
+	-webkit-transition : 0.6s ease-in-out left;
+	-moz-transition : 0.6s ease-in-out left;
+	-o-transition : 0.6s ease-in-out left;
+}
+
+.active.left {
+	position: relative;
+	display: inline-block;
+	left: -100%;
+}
+
+.active.right { 
+	position: relative;
+	display: inline-block;
+	left: -100%;
+ }
+
+ .active {
+	position: relative;
+	display: inline-block;
+	left:0%;
+}
+
+.next { 
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	left: 100%;
+}
+
+.prev { 
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	left: -100%;
+}
+
+.next.left {
+	/*left : 0%;*/
+}
+
+.prev.right {
+	left : 100%;
+}
