@@ -45,12 +45,18 @@
 		var previousItem = this.pointedItem,
 			_this = this;
 		this.pointedItem--;
-		this.pointedItem = this.pointedItem < 0 ? $(this.options.el).find('.items-chunk').length : this.pointedItem;
+		this.pointedItem = this.pointedItem < 0 ? $(this.options.el).find('.items-chunk').length - 1: this.pointedItem;
 
 		var $prev = this.itemAt(previousItem),
 			$new = this.itemAt(this.pointedItem);
+
+
+		$new.addClass('prev');
 		$prev.addClass('right');
-		$new.addClass('prev left');
+
+		// Delay is set to overcome DOM rendering latency 
+		setTimeout(function() { $new.addClass('right'); } ,10);
+
 		$(this.options.el).one('webkitTransitionEnd',function() {
 			$prev.removeClass('active right');
 			$new.addClass('active').removeClass('prev right');
@@ -78,13 +84,14 @@
 		
 		$new.addClass('next');
 		$prev.addClass('left');
+		// Delay is set to overcome DOM rendering latency 
 		setTimeout(function() { $new.addClass('left'); } ,10);
 
 		$(this.options.el).one('webkitTransitionEnd',function() {
 			$prev.removeClass('active left');
 			$new.addClass('active').removeClass('next left');
 			_this.animating = false;
-		})
+		});
 	}
 
 	Carousel.prototype.slider = function() {

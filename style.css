@@ -53,7 +53,7 @@
 .active.right { 
 	position: relative;
 	display: inline-block;
-	left: -100%;
+	left: 		100%;
  }
 
  .active {
@@ -83,5 +83,5 @@
 }
 
 .prev.right {
-	left : 100%;
+	left : 0%;
 }
