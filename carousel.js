@@ -3,6 +3,7 @@
 	var Carousel = function(options){
 		this.options = options || {};
 
+		this.mobileCheck();
 		this.arrange();
 		this.createButtons();
 		this.bindEvents();
@@ -19,6 +20,10 @@
 		}
 	}
 
+	Carousel.prototype.mobileCheck = function(event){
+		this.options.visibleItems = $(window).width() < 780 ? (this.options.mobileVisibleItems || 1): this.options.visibleItems;
+	}
+
 	Carousel.prototype.createButtons = function() {
 		$(this.options.el).append('<div class="left-button"></div>').append('<div class="right-button"></div>');
 	}
@@ -31,7 +36,34 @@
 		$(this.options.el).find('.right-button').on('click',function(event){
 			_this.onRightClick(event);
 		});
+		$(this.options.el).on('touchstart',function(event){
+			_this.onTouchStart(event);
+		});
+		$(this.options.el).on('touchend',function(event){
+			_this.onTouchEnd(event);
+		});
+		$(this.options.el).on('touchmove',function(event){
+			_this.onTouchMove(event);
+		});
+	}
 
+
+
+	Carousel.prototype.onTouchStart = function(event){ 
+		this.touchStart = event.touches[0];
+	}
+
+	Carousel.prototype.onTouchEnd = function(event){ 
+		if(!this.touchMove) return;
+		var $eleTrigger = (this.touchMove.screenX - this.touchStart.screenX < 0 )? $(this.options.el).find('.right-button') :
+							$(this.options.el).find('.left-button');
+		$eleTrigger.trigger('click');
+		this.touchStart = null;
+	}
+
+	Carousel.prototype.onTouchMove = function(event){ 
+		this.touchMove = event.touches[0];
+		this.touchstart = false;
 	}
 
 	Carousel.prototype.onLeftClick = function(event){
@@ -57,7 +89,7 @@
 		// Delay is set to overcome DOM rendering latency 
 		setTimeout(function() { $new.addClass('right'); } ,10);
 
-		$(this.options.el).one('webkitTransitionEnd',function() {
+		$(this.options.el).one('webkitTransitionEnd tansitionEnd',function() {
 			$prev.removeClass('active right');
 			$new.addClass('active').removeClass('prev right');
 			_this.animating = false;
