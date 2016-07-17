@@ -5,9 +5,16 @@ window.onload = function(){
 
 function init(){
 	var carousel_obj = new Carousel({
-		el : '.main-container',
+		el : '.test1',
 		mobile : false , 
 		visibleItems : 4,
-		autoslide : false
+		autoSlide : false
+	});
+
+	var carousel_obj = new Carousel({
+		el : '.test2',
+		mobile : false , 
+		visibleItems : 4,
+		autoSlide : true
 	});
 }

@@ -1,3 +1,14 @@
+/*
+options :
+
+visibleItems       => Items those should be clubbed together to form a chunk and will be visible in window
+mobileVisibleItems => Number of items visible in the mobile view
+interval           => Interval for auto slide
+autoSlide          => Autoslide option
+
+
+*/
+
 (function(){
 
 	var Carousel = function(options){
@@ -7,7 +18,7 @@
 		this.arrange();
 		this.createButtons();
 		this.bindEvents();
-		this.options.autoslide && this.slider();
+		this.options.autoSlide && this.slider();
 		this.init();
 	}
 
@@ -54,7 +65,7 @@
 	}
 
 	Carousel.prototype.onTouchEnd = function(event){ 
-		if(!this.touchMove) return;
+		if(!this.touchMove || this.animating) return;
 		var $eleTrigger = (this.touchMove.screenX - this.touchStart.screenX < 0 )? $(this.options.el).find('.right-button') :
 							$(this.options.el).find('.left-button');
 		$eleTrigger.trigger('click');
@@ -130,9 +141,7 @@
 		var _counter = 0,
 			_this = this;
 		this.timer = setInterval(function(){
-			$(_this.options.el).find('.items-chunk').removeClass('active').eq(_counter).addClass('active');
-			_counter++;
-			_counter = _this.getIndex(_counter);
+			$(_this.options.el).find('.right-button').trigger('click');
 		},this.options.interval || 3000);	
 	}
 
