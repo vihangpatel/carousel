@@ -11,6 +11,8 @@ autoSlide          => Autoslide option
 
 (function(){
 
+	var ANIMATION_END_EVENT = 'webkitTransitionEnd oanimationend msanimationend animationend';
+
 	var Carousel = function(options){
 		this.options = options || {};
 
@@ -100,7 +102,7 @@ autoSlide          => Autoslide option
 		// Delay is set to overcome DOM rendering latency 
 		setTimeout(function() { $new.addClass('right'); } ,10);
 
-		$(this.options.el).one('webkitTransitionEnd tansitionEnd',function() {
+		$(this.options.el).one(ANIMATION_END_EVENT,function() {
 			$prev.removeClass('active right');
 			$new.addClass('active').removeClass('prev right');
 			_this.animating = false;
@@ -130,7 +132,7 @@ autoSlide          => Autoslide option
 		// Delay is set to overcome DOM rendering latency 
 		setTimeout(function() { $new.addClass('left'); } ,10);
 
-		$(this.options.el).one('webkitTransitionEnd',function() {
+		$(this.options.el).one(ANIMATION_END_EVENT,function() {
 			$prev.removeClass('active left');
 			$new.addClass('active').removeClass('next left');
 			_this.animating = false;
