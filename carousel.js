@@ -63,7 +63,7 @@ autoSlide          => Autoslide option
 
 
 	Carousel.prototype.onTouchStart = function(event){ 
-		this.touchStart = event.touches[0];
+		this.touchStart = event.originalEvent.touches[0];
 	}
 
 	Carousel.prototype.onTouchEnd = function(event){ 
@@ -75,7 +75,7 @@ autoSlide          => Autoslide option
 	}
 
 	Carousel.prototype.onTouchMove = function(event){ 
-		this.touchMove = event.touches[0];
+		this.touchMove = event.originalEvent.touches[0];
 		this.touchstart = false;
 	}
 
