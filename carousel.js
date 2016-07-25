@@ -14,6 +14,10 @@ autoSlide          => Autoslide option
 	var ANIMATION_END_EVENT = 'webkitTransitionEnd oanimationend msanimationend animationend';
 
 	var Carousel = function(options){
+		this._init(options);
+	}
+
+	Carousel.prototype._init = function(options){
 		this.options = options || {};
 
 		this.mobileCheck();
@@ -27,14 +31,14 @@ autoSlide          => Autoslide option
 	Carousel.prototype.arrange = function(item){
 		var items = $(this.options.el).children().remove();
 		while(items.length){
-			var remainingItems = items.splice(this.options.visibleItems);
+			var remainingItems = items.splice(this.options._visibleItems);
 			$(this.options.el).append($('<div class="items-chunk"></div>').append(items));
 			items = remainingItems;
 		}
 	}
 
 	Carousel.prototype.mobileCheck = function(event){
-		this.options.visibleItems = $(window).width() < 780 ? (this.options.mobileVisibleItems || 1): this.options.visibleItems;
+		this.options._visibleItems = $(window).width() < 780 ? (this.options.mobileVisibleItems || 1): this.options.visibleItems;
 	}
 
 	Carousel.prototype.createButtons = function() {
@@ -59,7 +63,11 @@ autoSlide          => Autoslide option
 			_this.onTouchMove(event);
 		});
 		$(window).on('resize',function(event){
-			_this.reset(event);
+			clearTimeout(_this.resizeEventTimer);
+			_this.resizeEventTimer = setTimeout(function(){
+				console.log('resize');
+				_this.reset(event);
+			},500);
 		});
 	}
 
@@ -157,9 +165,11 @@ autoSlide          => Autoslide option
 	}
 
 	Carousel.prototype.reset = function(){
+		console.log('reset');
 		var items = $(this.options.el).find('.items-chunk').children().remove();
-		$(this.options.el).append(items);
-		this.arrange();
+		$(this.options.el).empty().append(items);
+		this.destroy();
+		this._init(this.options);
 	}
 
 	Carousel.prototype.getIndex = function(count){
