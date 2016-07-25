@@ -79,6 +79,9 @@ autoSlide          => Autoslide option
 
 	Carousel.prototype.onTouchEnd = function(event){
 		if(!this.touchMove || this.animating) return;
+		if(Math.abs(this.touchMove.screenX - this.touchStart.screenX) < (this.options.threshold || 20)) {
+			return;
+		}
 		var $eleTrigger = (this.touchMove.screenX - this.touchStart.screenX < 0 )? $(this.options.el).find('.right-button') :
 							$(this.options.el).find('.left-button');
 		$eleTrigger.trigger('click');
