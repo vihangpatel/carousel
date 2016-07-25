@@ -52,7 +52,7 @@ autoSlide          => Autoslide option
 	}
 
 	Carousel.prototype.createButtons = function() {
-		$(this.options.el).append('<div class="left-button"></div>').append('<div class="right-button"></div>');
+		$(this.options.el).append('<div class="left-button"><</div>').append('<div class="right-button">></div>');
 	}
 
 	Carousel.prototype.bindEvents = function() {
