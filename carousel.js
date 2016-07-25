@@ -29,12 +29,22 @@ autoSlide          => Autoslide option
 	}
 
 	Carousel.prototype.arrange = function(item){
-		var items = $(this.options.el).children().remove();
+		var items = $(this.options.el).children().css(this.calculateParams()).remove();
 		while(items.length){
 			var remainingItems = items.splice(this.options._visibleItems);
 			$(this.options.el).append($('<div class="items-chunk"></div>').append(items));
 			items = remainingItems;
 		}
+	}
+
+	Carousel.prototype.calculateParams = function() {
+		var marginRight = this.options.margin || 10,
+			totalMargin = marginRight * this.options._visibleItems ,
+			parentWidth = $(this.options.el).width() - totalMargin;
+		return {
+			'margin-right' : marginRight,
+			'width' : parseInt(parentWidth / this.options._visibleItems)
+		}	
 	}
 
 	Carousel.prototype.mobileCheck = function(event){
