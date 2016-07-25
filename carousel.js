@@ -58,15 +58,18 @@ autoSlide          => Autoslide option
 		$(this.options.el).on('touchmove',function(event){
 			_this.onTouchMove(event);
 		});
+		$(window).on('resize',function(event){
+			_this.reset(event);
+		});
 	}
 
 
 
-	Carousel.prototype.onTouchStart = function(event){ 
+	Carousel.prototype.onTouchStart = function(event){
 		this.touchStart = event.originalEvent.touches[0];
 	}
 
-	Carousel.prototype.onTouchEnd = function(event){ 
+	Carousel.prototype.onTouchEnd = function(event){
 		if(!this.touchMove || this.animating) return;
 		var $eleTrigger = (this.touchMove.screenX - this.touchStart.screenX < 0 )? $(this.options.el).find('.right-button') :
 							$(this.options.el).find('.left-button');
@@ -74,7 +77,7 @@ autoSlide          => Autoslide option
 		this.touchStart = null;
 	}
 
-	Carousel.prototype.onTouchMove = function(event){ 
+	Carousel.prototype.onTouchMove = function(event){
 		this.touchMove = event.originalEvent.touches[0];
 		this.touchstart = false;
 	}
@@ -99,13 +102,14 @@ autoSlide          => Autoslide option
 		$new.addClass('prev');
 		$prev.addClass('right');
 
-		// Delay is set to overcome DOM rendering latency 
-		setTimeout(function() { $new.addClass('right'); } ,10);
+		// Delay is set to overcome DOM rendering latency
+		this.timer = setTimeout(function() { $new.addClass('right'); } ,10);
 
 		$(this.options.el).one(ANIMATION_END_EVENT,function() {
 			$prev.removeClass('active right');
 			$new.addClass('active').removeClass('prev right');
 			_this.animating = false;
+			clearTimeout(_this.timer);
 		})
 
 	}
@@ -126,16 +130,17 @@ autoSlide          => Autoslide option
 
 		var $prev = this.itemAt(previousItem),
 			$new = this.itemAt(this.pointedItem);
-		
+
 		$new.addClass('next');
 		$prev.addClass('left');
-		// Delay is set to overcome DOM rendering latency 
+		// Delay is set to overcome DOM rendering latency
 		setTimeout(function() { $new.addClass('left'); } ,10);
 
 		$(this.options.el).one(ANIMATION_END_EVENT,function() {
 			$prev.removeClass('active left');
 			$new.addClass('active').removeClass('next left');
 			_this.animating = false;
+			clearTimeout(_this.timer);
 		});
 	}
 
@@ -144,11 +149,17 @@ autoSlide          => Autoslide option
 			_this = this;
 		this.timer = setInterval(function(){
 			$(_this.options.el).find('.right-button').trigger('click');
-		},this.options.interval || 3000);	
+		},this.options.interval || 3000);
 	}
 
 	Carousel.prototype.destroy = function(){
 		this.timer && clearInterval(this.timer);
+	}
+
+	Carousel.prototype.reset = function(){
+		var items = $(this.options.el).find('.items-chunk').children().remove();
+		$(this.options.el).append(items);
+		this.arrange();
 	}
 
 	Carousel.prototype.getIndex = function(count){
