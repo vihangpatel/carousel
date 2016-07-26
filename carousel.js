@@ -174,6 +174,7 @@ autoSlide          => Autoslide option
 	}
 
 	Carousel.prototype.destroy = function(){
+		this.animating = false;
 		this.timer && clearInterval(this.timer);
 	}
 
