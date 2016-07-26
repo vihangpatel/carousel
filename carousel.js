@@ -143,7 +143,7 @@ autoSlide          => Autoslide option
 		var previousItem = this.pointedItem,
 			_this = this;
 		this.pointedItem--;
-		this.pointedItem = this.pointedItem < 0 ? document.querySelector(this.options.el.concat(' .items-chunk')).length - 1: this.pointedItem;
+		this.pointedItem = this.pointedItem < 0 ? document.querySelectorAll(this.options.el.concat(' .items-chunk')).length - 1: this.pointedItem;
 
 		var prevEle = this.itemAt(previousItem),
 			newEle = this.itemAt(this.pointedItem);
@@ -151,8 +151,8 @@ autoSlide          => Autoslide option
 		newEle.classList.add('prev');
 		prevEle.classList.add('right');
 
-		// Delay is set to overcome DOM rendering latency
-		this.timer = setTimeout(function() { newEle.classList.add('right'); } ,10);
+		newEle.offsetWidth;			// Memory of DOM attributes get refreshed when this property is called
+		newEle.classList.add('right'); 
 
 		$(this.options.el).one(ANIMATION_END_EVENT,function() {
 			prevEle.classList.remove('active');
@@ -185,9 +185,8 @@ autoSlide          => Autoslide option
 
 		newEle.classList.add('next');
 		prevEle.classList.add('left');
-
-		// Delay is set to overcome DOM rendering latency
-		setTimeout(function() { newEle.classList.add('left'); } ,10);
+		newEle.offsetWidth;         // Memory of DOM attributes get refreshed when this property is called
+		newEle.classList.add('left');
 
 		$(this.options.el).one(ANIMATION_END_EVENT,function() {
 			prevEle.classList.remove('active');
