@@ -7,7 +7,7 @@ function init(){
 	var carousel_obj = new Carousel({
 		el : '.test1',
 		mobile : false , 
-		visibleItems : 4,
+		visibleItems : 8,
 		autoSlide : false
 	});
 
