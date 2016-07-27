@@ -11,7 +11,7 @@ autoSlide          => Autoslide option
 
 (function(){
 
-	var ANIMATION_END_EVENT = 'webkitTransitionEnd oanimationend msanimationend animationend';
+	var ANIMATION_END_EVENT = 'transitionend mozAnimationEnd mozanimationend webkitTransitionEnd oanimationend msanimationend animationend';
 
 	var Carousel = function(options){
 		this._init(options);
@@ -61,8 +61,8 @@ autoSlide          => Autoslide option
 			items = this.currentEl().children;
 			for(index = 0 ; index < items.length ; index++){
 				currentItem = items[index],
-				currentItem.style.marginRight = itemStyle['margin-right'];
-				currentItem.style.width = itemStyle['width'];
+				currentItem.style.marginRight = itemStyle['margin-right'] + 'px';
+				currentItem.style.width = itemStyle['width'] + 'px';
 			};
 	}
 
@@ -232,7 +232,7 @@ autoSlide          => Autoslide option
 	}
 
 	Carousel.prototype.getIndex = function(count){
-		return count % (document.querySelectorAll(this.options.el.concat(' .items-chunk')).length || 1);
+		return count % (this.getChunks().length || 1);
 	}
 
 	Carousel.prototype.init = function() {
@@ -241,12 +241,23 @@ autoSlide          => Autoslide option
 	}
 
 	Carousel.prototype.itemAt = function(itemIndex){
-		return document.querySelectorAll(this.options.el.concat(' .items-chunk'))[itemIndex || 0];
+		return this.getChunks()[itemIndex || 0];
 	}
 
 	Carousel.prototype.currentEl = function(){
 		this.el =  this.el ? this.el : document.querySelector(this.options.el);
 		return this.el;
+	}
+
+	Carousel.prototype.getChunks = function(){
+		return document.querySelectorAll(this.options.el.concat(' .items-chunk'));
+	}
+
+	Carousel.prototype.handleArrows = function() {
+		this.leftButtonEle.classList.remove('disable');
+		this.rightButtonEle.classList.remove('disable');
+		if(this.pointedItem == 0) this.leftButtonEle.classList.add('disable');
+		if(this.pointedItem == this.getChunks().length - 1) this.leftButtonEle.classList.add('disable');
 	}
 
 	window.Carousel = Carousel;
