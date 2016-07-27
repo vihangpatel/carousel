@@ -83,6 +83,8 @@ autoSlide          => Autoslide option
 	Carousel.prototype.createButtons = function() {
 		this.leftButtonEle = document.createElement('div'),
 		this.rightButtonEle = this.leftButtonEle.cloneNode(true);
+		this.leftButtonEle.innerText = this.options.leftText || "<";
+		this.rightButtonEle.innerText = this.options.rightText ||">";
 		this.leftButtonEle.className = 'left-button';
 		this.rightButtonEle.className = 'right-button';
 		this.currentEl().appendChild(this.leftButtonEle);
