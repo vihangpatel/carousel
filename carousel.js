@@ -94,9 +94,15 @@ autoSlide          => Autoslide option
 	Carousel.prototype.bindEvents = function() {
 		var _this = this;
 		document.querySelector(this.options.el.concat(' .left-button')).addEventListener('click',function(event){
+			if([].slice.call(_this.leftButtonEle.classList).indexOf('disable') > 0){
+				return;
+			}
 			_this.onLeftClick(event);
 		})
 		document.querySelector(this.options.el.concat(' .right-button')).addEventListener('click',function(event){
+			if([].slice.call(_this.rightButtonEle.classList).indexOf('disable') > 0){
+				return;
+			}
 			_this.onRightClick(event);
 		});
 		this.currentEl().addEventListener('touchstart',function(event){
@@ -156,6 +162,8 @@ autoSlide          => Autoslide option
 		newEle.offsetWidth;			// Memory of DOM attributes get refreshed when this property is called
 		newEle.classList.add('right'); 
 
+		this.handleArrows();
+
 		$(this.options.el).one(ANIMATION_END_EVENT,function() {
 			prevEle.classList.remove('active');
 			prevEle.classList.remove('right');
@@ -189,6 +197,8 @@ autoSlide          => Autoslide option
 		prevEle.classList.add('left');
 		newEle.offsetWidth;         // Memory of DOM attributes get refreshed when this property is called
 		newEle.classList.add('left');
+
+		this.handleArrows();
 
 		$(this.options.el).one(ANIMATION_END_EVENT,function() {
 			prevEle.classList.remove('active');
@@ -238,6 +248,7 @@ autoSlide          => Autoslide option
 	Carousel.prototype.init = function() {
 		this.itemAt(0).classList.add('active');
 		this.pointedItem = 0;
+		this.handleArrows();
 	}
 
 	Carousel.prototype.itemAt = function(itemIndex){
@@ -254,10 +265,13 @@ autoSlide          => Autoslide option
 	}
 
 	Carousel.prototype.handleArrows = function() {
+		if(!this.options.handleArrows){
+			return;
+		}
 		this.leftButtonEle.classList.remove('disable');
 		this.rightButtonEle.classList.remove('disable');
 		if(this.pointedItem == 0) this.leftButtonEle.classList.add('disable');
-		if(this.pointedItem == this.getChunks().length - 1) this.leftButtonEle.classList.add('disable');
+		if(this.pointedItem == this.getChunks().length - 1) this.rightButtonEle.classList.add('disable');
 	}
 
 	window.Carousel = Carousel;
