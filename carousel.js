@@ -126,12 +126,12 @@ autoSlide          => Autoslide option
 			return;
 		}
 	    (this.touchMove.screenX - this.touchStart.screenX < 0 )? this.onRightClick() : this.onLeftClick();
-		this.touchStart = null;																																																
+		this.touchStart = null;	
+		this.touchMove = null;																																															
 	}
 
 	Carousel.prototype.onTouchMove = function(event){
 		this.touchMove = event.touches[0];
-		this.touchstart = false;
 	}
 
 	Carousel.prototype.onLeftClick = function(event){
