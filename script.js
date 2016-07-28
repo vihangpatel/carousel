@@ -7,14 +7,17 @@ function init(){
 	var carousel_obj = new Carousel({
 		el : '.test1',
 		mobile : false , 
-		visibleItems : 8,
-		autoSlide : false
+		visibleItems : 4,
+		autoSlide : false,
+		handleArrows : true
 	});
 
 	var carousel_obj = new Carousel({
 		el : '.test2',
 		mobile : false , 
 		visibleItems : 4,
-		autoSlide : true
+		autoSlide : true,
+		leftText : 'Prev',
+		rightText : 'Next'
 	});
 }

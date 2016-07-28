@@ -94,15 +94,9 @@ autoSlide          => Autoslide option
 	Carousel.prototype.bindEvents = function() {
 		var _this = this;
 		document.querySelector(this.options.el.concat(' .left-button')).addEventListener('click',function(event){
-			if([].slice.call(_this.leftButtonEle.classList).indexOf('disable') > 0){
-				return;
-			}
 			_this.onLeftClick(event);
 		})
-		document.querySelector(this.options.el.concat(' .right-button')).addEventListener('click',function(event){
-			if([].slice.call(_this.rightButtonEle.classList).indexOf('disable') > 0){
-				return;
-			}
+		document.querySelector(this.options.el.concat(' .right-button')).addEventListener('click',function(event){				
 			_this.onRightClick(event);
 		});
 		this.currentEl().addEventListener('touchstart',function(event){
@@ -142,7 +136,7 @@ autoSlide          => Autoslide option
 
 	Carousel.prototype.onLeftClick = function(event){
 
-		if(this.animating){
+		if(this.animating || [].slice.call(this.leftButtonEle.classList).indexOf('disable') > 0){
 			// Return from here because animation is going on
 			return;
 		}
@@ -151,7 +145,7 @@ autoSlide          => Autoslide option
 		var previousItem = this.pointedItem,
 			_this = this;
 		this.pointedItem--;
-		this.pointedItem = this.pointedItem < 0 ? document.querySelectorAll(this.options.el.concat(' .items-chunk')).length - 1: this.pointedItem;
+		this.pointedItem = this.pointedItem < 0 ? this.getChunks().length - 1: this.pointedItem;
 
 		var prevEle = this.itemAt(previousItem),
 			newEle = this.itemAt(this.pointedItem);
@@ -178,7 +172,7 @@ autoSlide          => Autoslide option
 
 	Carousel.prototype.onRightClick = function(event){
 
-		if(this.animating) {
+		if(this.animating || [].slice.call(this.rightButtonEle.classList).indexOf('disable') > 0){
 			// Don't trigger animation if the animation is already going on
 			return;
 		}
@@ -226,7 +220,7 @@ autoSlide          => Autoslide option
 
 	Carousel.prototype.reset = function(){
 		var currentEl = this.currentEl(),
-			items = [].slice.call(document.querySelectorAll(this.options.el.concat(' .items-chunk')));
+			items = [].slice.call(this.getChunks());
 			arrayItems = [];// [].slice.call(.children),
 
 		items.forEach(function(item,index){

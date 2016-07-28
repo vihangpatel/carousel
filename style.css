@@ -22,6 +22,7 @@
 	width: 20px;
 	top:50%;
 	border: 1px solid red;
+	background: rgba(255,0,0,0.5);
 }
 
 .right-button {
@@ -31,6 +32,8 @@
 	width: 20px;
 	top:50%;
 	border: 1px solid red;
+
+	background: rgba(255,0,0,0.5);
 }
 
 .items-chunk {
@@ -82,6 +85,10 @@
 
 .prev.right {
 	left : 0%;
+}
+
+.disable  { 
+	opacity: 0.2;
 }
 
 @media (max-width: 768px) {
