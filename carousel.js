@@ -67,7 +67,7 @@ autoSlide          => Autoslide option
 	}
 
 	Carousel.prototype.calculateParams = function() {
-		var marginRight = this.options.margin || 10,
+		var marginRight = typeof this.options.margin != 'undefined' ? this.options.margin : 10,
 			totalMargin = marginRight * (this.options._visibleItems - 1),
 			parentWidth = this.currentEl().getBoundingClientRect().width - totalMargin;
 		return {
