@@ -19,7 +19,13 @@ autoSlide          => Autoslide option
 
 	Carousel.prototype._init = function(options){
 		this.options = options || {};
+		var currentEl = this.currentEl();
 
+		if(currentEl == null || typeof currentEl == 'undefined'){
+			console.warn('el in options is not initialized : ' , this.options.el);
+			return;
+		}
+		
 		this.mobileCheck();
 		this.arrange();
 		this.createButtons();
@@ -146,6 +152,7 @@ autoSlide          => Autoslide option
 			// Return from here because animation is going on
 			return;
 		}
+		event && event.preventDefault();
 		this.animating = true;
 
 		var previousItem = this.pointedItem,
@@ -182,6 +189,8 @@ autoSlide          => Autoslide option
 			// Don't trigger animation if the animation is already going on
 			return;
 		}
+		event && event.preventDefault();
+
 		this.animating = true;
 
 		var previousItem = this.pointedItem,
